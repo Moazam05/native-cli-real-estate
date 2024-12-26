@@ -9,12 +9,18 @@ import {
   TouchableOpacity,
   Dimensions,
   Animated,
+  Alert,
 } from 'react-native';
+import {
+  GoogleSignin,
+  statusCodes,
+} from '@react-native-google-signin/google-signin';
 
 import images from '../../constants/images';
 import icons from '../../constants/icons';
 import Colors from '../../constants/colors';
 import Fonts from '../../constants/fonts';
+import {supabase} from '../../supabase/supabaseClient';
 
 const {width, height} = Dimensions.get('window');
 
@@ -26,8 +32,51 @@ const YourComponent = () => {
   const buttonOpacity = new Animated.Value(0);
   const buttonTranslateY = new Animated.Value(50);
 
-  const handleLogin = async () => {};
+useEffect(() => {
+  const configureGoogleSignIn = async () => {
+    try {
+      await GoogleSignin.configure({
+        webClientId: '718857751653-8tli83q6b913j2263ophp8cal2r7lmga.apps.googleusercontent.com', // This matches your web client ID
+        offlineAccess: true,
+      });
+      console.log('Google Sign In configured successfully');
+    } catch (error) {
+      console.error('Google Sign In configuration error:', error);
+    }
+  };
 
+  configureGoogleSignIn();
+}, []);
+
+  const handleGoogleSignIn = async () => {
+    try {
+      await GoogleSignin.hasPlayServices();
+      const userInfo = await GoogleSignin.signIn();
+
+      if (userInfo.idToken) {
+        const {data, error} = await supabase.auth.signInWithIdToken({
+          provider: 'google',
+          token: userInfo.idToken,
+        });
+
+        if (error) throw error;
+        console.log('Success:', data);
+      } else {
+        throw new Error('no ID token present!');
+      }
+    } catch (error) {
+      console.error('Detailed error object:', JSON.stringify(error, null, 2));
+      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+        Alert.alert('User cancelled the login flow');
+      } else if (error.code === statusCodes.IN_PROGRESS) {
+        Alert.alert('Operation in progress');
+      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+        Alert.alert('Play services not available or outdated');
+      } else {
+        Alert.alert('Error', `${error.message}\nCode: ${error.code}`);
+      }
+    }
+  };
   useEffect(() => {
     // Sequence of animations
     Animated.sequence([
@@ -107,7 +156,7 @@ const YourComponent = () => {
               transform: [{translateY: buttonTranslateY}],
             }}>
             <TouchableOpacity
-              onPress={handleLogin}
+              onPress={handleGoogleSignIn}
               style={styles.googleButton}
               activeOpacity={0.8}>
               <View style={styles.googleButtonContent}>
