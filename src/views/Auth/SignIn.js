@@ -7,6 +7,7 @@ import {
   View,
   Text,
   TouchableOpacity,
+  Dimensions,
 } from 'react-native';
 
 import images from '../../constants/images';
@@ -14,29 +15,38 @@ import icons from '../../constants/icons';
 import Colors from '../../constants/colors';
 import Fonts from '../../constants/fonts';
 
+const {width, height} = Dimensions.get('window');
+
 const YourComponent = () => {
   const handleLogin = async () => {};
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView contentContainerStyle={styles.scrollContainer}>
-        <Image
-          source={images.onboarding}
-          style={styles.onboardingImage}
-          resizeMode="contain"
-        />
+      <ScrollView
+        contentContainerStyle={styles.scrollContainer}
+        showsVerticalScrollIndicator={false}>
+        <View style={styles.imageContainer}>
+          <Image
+            source={images.onboarding}
+            style={styles.onboardingImage}
+            resizeMode="contain"
+          />
+        </View>
 
         <View style={styles.contentContainer}>
           <Text style={styles.welcomeText}>Welcome To Real Scout</Text>
 
           <Text style={styles.headingText}>
-            Let's Get You Closer To {'\n'}
+            Let's Get You Closer To{'\n'}
             <Text style={styles.primaryText}>Your Ideal Home</Text>
           </Text>
 
           <Text style={styles.loginText}>Login to Real Scout with Google</Text>
 
-          <TouchableOpacity onPress={handleLogin} style={styles.googleButton}>
+          <TouchableOpacity
+            onPress={handleLogin}
+            style={styles.googleButton}
+            activeOpacity={0.8}>
             <View style={styles.googleButtonContent}>
               <Image
                 source={icons.google}
@@ -58,53 +68,63 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   scrollContainer: {
-    height: '100%',
+    flexGrow: 1,
+  },
+  imageContainer: {
+    height: height * 0.6, // Adjust image container height
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   onboardingImage: {
-    width: '100%',
-    height: '66.67%',
+    width: width * 0.8,
+    height: '100%',
   },
   contentContainer: {
-    paddingHorizontal: 40,
+    paddingHorizontal: width * 0.08,
+    paddingTop: height * 0.02,
+    paddingBottom: height * 0.05,
   },
   welcomeText: {
-    fontSize: 16,
+    fontSize: 14,
     textAlign: 'center',
     textTransform: 'uppercase',
     fontFamily: Fonts.REGULAR,
     color: Colors.greyMedium,
+    letterSpacing: 0.5,
   },
   headingText: {
-    fontSize: 30,
+    fontSize: 24,
     fontFamily: Fonts.BOLD,
     color: Colors.greyDark,
     textAlign: 'center',
-    marginTop: 8,
+    marginTop: height * 0.015,
+    lineHeight: 32,
   },
   primaryText: {
     color: Colors.primary,
   },
   loginText: {
-    fontSize: 18,
+    fontSize: 16,
     fontFamily: Fonts.REGULAR,
     color: Colors.greyMedium,
     textAlign: 'center',
-    marginTop: 48,
+    marginTop: height * 0.04,
   },
   googleButton: {
     backgroundColor: 'white',
-    borderRadius: 9999,
+    borderRadius: 30,
     width: '100%',
-    paddingVertical: 16,
-    marginTop: 20,
-    shadowColor: '#71717a',
+    paddingVertical: height * 0.018,
+    marginTop: height * 0.025,
+    shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 2,
     },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+    marginBottom: height * 0.02,
   },
   googleButtonContent: {
     flexDirection: 'row',
@@ -112,14 +132,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   googleIcon: {
-    width: 20,
-    height: 20,
+    width: 18,
+    height: 18,
   },
   googleButtonText: {
-    fontSize: 18,
+    fontSize: 16,
     fontFamily: Fonts.MEDIUM,
     color: Colors.greyDark,
-    marginLeft: 8,
+    marginLeft: 10,
   },
 });
 
