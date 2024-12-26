@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -8,6 +8,7 @@ import {
   Text,
   TouchableOpacity,
   Dimensions,
+  Animated,
 } from 'react-native';
 
 import images from '../../constants/images';
@@ -18,44 +19,109 @@ import Fonts from '../../constants/fonts';
 const {width, height} = Dimensions.get('window');
 
 const YourComponent = () => {
+  const imageOpacity = new Animated.Value(0);
+  const welcomeTextOpacity = new Animated.Value(0);
+  const headingTextOpacity = new Animated.Value(0);
+  const loginTextOpacity = new Animated.Value(0);
+  const buttonOpacity = new Animated.Value(0);
+  const buttonTranslateY = new Animated.Value(50);
+
   const handleLogin = async () => {};
+
+  useEffect(() => {
+    // Sequence of animations
+    Animated.sequence([
+      // Image fade in
+      Animated.timing(imageOpacity, {
+        toValue: 1,
+        duration: 1000,
+        useNativeDriver: true,
+      }),
+      // Welcome text fade in
+      Animated.timing(welcomeTextOpacity, {
+        toValue: 1,
+        duration: 800,
+        useNativeDriver: true,
+      }),
+      // Heading text fade in
+      Animated.timing(headingTextOpacity, {
+        toValue: 1,
+        duration: 800,
+        useNativeDriver: true,
+      }),
+      // Login text fade in
+      Animated.timing(loginTextOpacity, {
+        toValue: 1,
+        duration: 800,
+        useNativeDriver: true,
+      }),
+      // Button animation (fade in and slide up)
+      Animated.parallel([
+        Animated.timing(buttonOpacity, {
+          toValue: 1,
+          duration: 800,
+          useNativeDriver: true,
+        }),
+        Animated.timing(buttonTranslateY, {
+          toValue: 0,
+          duration: 800,
+          useNativeDriver: true,
+        }),
+      ]),
+    ]).start();
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView
         contentContainerStyle={styles.scrollContainer}
         showsVerticalScrollIndicator={false}>
-        <View style={styles.imageContainer}>
+        <Animated.View style={[styles.imageContainer, {opacity: imageOpacity}]}>
           <Image
             source={images.onboarding}
             style={styles.onboardingImage}
             resizeMode="contain"
           />
-        </View>
+        </Animated.View>
 
         <View style={styles.contentContainer}>
-          <Text style={styles.welcomeText}>Welcome To Real Scout</Text>
+          <Animated.Text
+            style={[styles.welcomeText, {opacity: welcomeTextOpacity}]}>
+            Welcome To Real Scout
+          </Animated.Text>
 
-          <Text style={styles.headingText}>
+          <Animated.Text
+            style={[styles.headingText, {opacity: headingTextOpacity}]}>
             Let's Get You Closer To{'\n'}
             <Text style={styles.primaryText}>Your Ideal Home</Text>
-          </Text>
+          </Animated.Text>
 
-          <Text style={styles.loginText}>Login to Real Scout with Google</Text>
+          <Animated.Text
+            style={[styles.loginText, {opacity: loginTextOpacity}]}>
+            Login to Real Scout with Google
+          </Animated.Text>
 
-          <TouchableOpacity
-            onPress={handleLogin}
-            style={styles.googleButton}
-            activeOpacity={0.8}>
-            <View style={styles.googleButtonContent}>
-              <Image
-                source={icons.google}
-                style={styles.googleIcon}
-                resizeMode="contain"
-              />
-              <Text style={styles.googleButtonText}>Continue with Google</Text>
-            </View>
-          </TouchableOpacity>
+          <Animated.View
+            style={{
+              opacity: buttonOpacity,
+              transform: [{translateY: buttonTranslateY}],
+            }}>
+            <TouchableOpacity
+              onPress={handleLogin}
+              style={styles.googleButton}
+              activeOpacity={0.8}>
+              <View style={styles.googleButtonContent}>
+                <Image
+                  source={icons.google}
+                  style={styles.googleIcon}
+                  resizeMode="contain"
+                />
+                <Text style={styles.googleButtonText}>
+                  Continue with Google
+                </Text>
+              </View>
+            </TouchableOpacity>
+          </Animated.View>
         </View>
       </ScrollView>
     </SafeAreaView>
