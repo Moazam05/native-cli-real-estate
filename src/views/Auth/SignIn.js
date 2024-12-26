@@ -31,41 +31,50 @@ const YourComponent = () => {
   const loginTextOpacity = new Animated.Value(0);
   const buttonOpacity = new Animated.Value(0);
   const buttonTranslateY = new Animated.Value(50);
+  useEffect(() => {
+    const configureGoogleSignIn = async () => {
+      try {
+        await GoogleSignin.configure({
+          webClientId:
+            '718857751653-8tli83q6b913j2263ophp8cal2r7lmga.apps.googleusercontent.com',
+          offlineAccess: true,
+          // Add these scopes
+          scopes: ['profile', 'email'],
+        });
+        console.log('Google Sign In configured successfully');
+      } catch (error) {
+        console.error('Google Sign In configuration error:', error);
+      }
+    };
 
-useEffect(() => {
-  const configureGoogleSignIn = async () => {
-    try {
-      await GoogleSignin.configure({
-        webClientId: '718857751653-8tli83q6b913j2263ophp8cal2r7lmga.apps.googleusercontent.com', // This matches your web client ID
-        offlineAccess: true,
-      });
-      console.log('Google Sign In configured successfully');
-    } catch (error) {
-      console.error('Google Sign In configuration error:', error);
-    }
-  };
-
-  configureGoogleSignIn();
-}, []);
+    configureGoogleSignIn();
+  }, []);
 
   const handleGoogleSignIn = async () => {
     try {
       await GoogleSignin.hasPlayServices();
-      const userInfo = await GoogleSignin.signIn();
 
-      if (userInfo.idToken) {
+      // First sign in and get user info
+      const userInfo = await GoogleSignin.signIn();
+      console.log('User Info:', userInfo);
+
+      // Get tokens explicitly
+      const tokens = await GoogleSignin.getTokens();
+      console.log('Tokens:', tokens);
+
+      // Notice that idToken is inside userInfo.data.idToken
+      if (userInfo.data && userInfo.data.idToken) {
         const {data, error} = await supabase.auth.signInWithIdToken({
           provider: 'google',
-          token: userInfo.idToken,
+          token: userInfo.data.idToken,
         });
 
         if (error) throw error;
-        console.log('Success:', data);
+        console.log('Supabase Success:', data);
       } else {
-        throw new Error('no ID token present!');
+        throw new Error('Failed to get necessary tokens');
       }
     } catch (error) {
-      console.error('Detailed error object:', JSON.stringify(error, null, 2));
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
         Alert.alert('User cancelled the login flow');
       } else if (error.code === statusCodes.IN_PROGRESS) {
@@ -74,9 +83,11 @@ useEffect(() => {
         Alert.alert('Play services not available or outdated');
       } else {
         Alert.alert('Error', `${error.message}\nCode: ${error.code}`);
+        console.error('Detailed error:', error);
       }
     }
   };
+
   useEffect(() => {
     // Sequence of animations
     Animated.sequence([
