@@ -2,15 +2,21 @@ import React, {useEffect} from 'react';
 import {View, Image, StyleSheet} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import images from '../../constants/images';
+import {getUserSession} from '../../redux/authStore';
 
 const Splash = () => {
   const navigation = useNavigation();
 
   useEffect(() => {
-    setTimeout(() => {
-      navigation.replace('SignIn');
-    }, 2000);
+    checkAuth();
   }, []);
+
+  const checkAuth = async () => {
+    const session = await getUserSession();
+    setTimeout(() => {
+      navigation.replace(session ? 'Home' : 'SignIn');
+    }, 2000);
+  };
 
   return (
     <View style={styles.container}>

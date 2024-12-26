@@ -21,10 +21,14 @@ import icons from '../../constants/icons';
 import Colors from '../../constants/colors';
 import Fonts from '../../constants/fonts';
 import {supabase} from '../../supabase/supabaseClient';
+import {storeUserSession} from '../../redux/authStore';
+import {useNavigation} from '@react-navigation/native';
 
 const {width, height} = Dimensions.get('window');
 
-const YourComponent = () => {
+const SignIn = () => {
+  const navigation = useNavigation();
+
   const imageOpacity = new Animated.Value(0);
   const welcomeTextOpacity = new Animated.Value(0);
   const headingTextOpacity = new Animated.Value(0);
@@ -56,11 +60,11 @@ const YourComponent = () => {
 
       // First sign in and get user info
       const userInfo = await GoogleSignin.signIn();
-      console.log('User Info:', userInfo);
+      // console.log('User Info:', userInfo);
 
       // Get tokens explicitly
       const tokens = await GoogleSignin.getTokens();
-      console.log('Tokens:', tokens);
+      // console.log('Tokens:', tokens);
 
       // Notice that idToken is inside userInfo.data.idToken
       if (userInfo.data && userInfo.data.idToken) {
@@ -70,7 +74,9 @@ const YourComponent = () => {
         });
 
         if (error) throw error;
-        console.log('Supabase Success:', data);
+        // console.log('Supabase Success:', data);
+        await storeUserSession(data);
+        navigation.replace('Home');
       } else {
         throw new Error('Failed to get necessary tokens');
       }
@@ -269,4 +275,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default YourComponent;
+export default SignIn;
