@@ -1,8 +1,9 @@
 import React, {useEffect} from 'react';
 import {View, Image, StyleSheet} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+// Custom Imports
 import images from '../../constants/images';
-import {getUserSession} from '../../redux/authStore';
 
 const Splash = () => {
   const navigation = useNavigation();
@@ -12,9 +13,10 @@ const Splash = () => {
   }, []);
 
   const checkAuth = async () => {
-    const session = await getUserSession();
+    const userData = await AsyncStorage.getItem('user');
+    const parsedUser = userData ? JSON.parse(userData) : null;
     setTimeout(() => {
-      navigation.replace(session ? 'Home' : 'SignIn');
+      navigation.replace(parsedUser ? 'Home' : 'SignIn');
     }, 2000);
   };
 

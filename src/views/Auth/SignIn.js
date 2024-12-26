@@ -15,19 +15,22 @@ import {
   GoogleSignin,
   statusCodes,
 } from '@react-native-google-signin/google-signin';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useNavigation} from '@react-navigation/native';
+import {useDispatch} from 'react-redux';
 
 import images from '../../constants/images';
 import icons from '../../constants/icons';
 import Colors from '../../constants/colors';
 import Fonts from '../../constants/fonts';
 import {supabase} from '../../supabase/supabaseClient';
-import {storeUserSession} from '../../redux/authStore';
-import {useNavigation} from '@react-navigation/native';
+import {setUser} from '../../redux/auth/authSlice';
 
 const {width, height} = Dimensions.get('window');
 
 const SignIn = () => {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
 
   const imageOpacity = new Animated.Value(0);
   const welcomeTextOpacity = new Animated.Value(0);
@@ -75,7 +78,8 @@ const SignIn = () => {
 
         if (error) throw error;
         // console.log('Supabase Success:', data);
-        await storeUserSession(data);
+        await AsyncStorage.setItem('user', JSON.stringify(data));
+        dispatch(setUser(data));
         navigation.replace('Home');
       } else {
         throw new Error('Failed to get necessary tokens');

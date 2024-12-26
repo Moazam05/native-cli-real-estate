@@ -3,20 +3,20 @@ import {configureStore, combineReducers} from '@reduxjs/toolkit';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {persistStore, persistReducer} from 'redux-persist'; // Persist utilities
 import {apiSlice} from './api/apiSlice';
-// import productsReducer from './products/productsSlice';
+import authReducer from './auth/authSlice';
 
 // Configurations for redux-persist
 const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
-  whitelist: ['products'],
+  whitelist: ['users'],
 };
 
 // Combine your reducers
 const rootReducer = combineReducers({
   [apiSlice.reducerPath]: apiSlice.reducer,
 
-  // products: productsReducer,
+  auth: authReducer,
 });
 
 // Create a persisted reducer

@@ -4,9 +4,16 @@ import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import {supabase} from '../../supabase/supabaseClient';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useNavigation} from '@react-navigation/native';
+import {useDispatch} from 'react-redux';
+import {selectedUser, setUser} from '../../redux/auth/authSlice';
+import useTypedSelector from '../../hooks/useTypedSelector';
 
 const Home = () => {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
+  const userDetails = useTypedSelector(selectedUser);
+
+  console.log('userDetails', userDetails?.session);
 
   useEffect(() => {
     const configureGoogleSignIn = async () => {
@@ -31,7 +38,9 @@ const Home = () => {
     try {
       await GoogleSignin.signOut();
       await supabase.auth.signOut();
-      await AsyncStorage.removeItem('userSession');
+      await AsyncStorage.removeItem('user');
+      dispatch(setUser(null));
+
       navigation.replace('SignIn');
     } catch (error) {
       console.error('Error signing out:', error);
