@@ -40,20 +40,35 @@ const Home = () => {
 
         <Searchbar />
 
-        <View className="my-5">
-          <View className="flex flex-row items-center justify-between">
-            <Text className="text-xl font-rubik-bold text-black-300">
-              Featured
-            </Text>
+        {/* Featured Section */}
+        <View style={styles.featuredSection}>
+          <View style={styles.sectionHeader}>
+            <Text style={styles.sectionTitle}>Featured</Text>
             <TouchableOpacity>
-              <Text className="text-base font-rubik-bold text-primary-300">
-                See all
-              </Text>
+              <Text style={styles.seeAllButton}>See all</Text>
             </TouchableOpacity>
           </View>
 
-          <FeaturedCard />
-          <Card />
+          <View style={styles.cardContainer}>
+            <FeaturedCard />
+            <FeaturedCard />
+            <FeaturedCard />
+          </View>
+        </View>
+
+        {/* Repeat for second section */}
+        <View style={styles.featuredSection}>
+          <View style={styles.sectionHeader}>
+            <Text style={styles.sectionTitle}>Featured</Text>
+            <TouchableOpacity>
+              <Text style={styles.seeAllButton}>See all</Text>
+            </TouchableOpacity>
+          </View>
+
+          <View style={styles.cardContainer}>
+            <Card />
+            <Card />
+          </View>
         </View>
       </View>
     </SafeAreaView>
@@ -90,16 +105,39 @@ const styles = StyleSheet.create({
   greetingText: {
     fontSize: 12,
     fontFamily: Fonts.REGULAR,
-    color: Colors.black100,
+    color: Colors.greyLight,
   },
   userName: {
     fontSize: 16,
     fontFamily: Fonts.MEDIUM,
-    color: Colors.black300,
+    color: Colors.greyDark,
   },
   bellIcon: {
     width: 24,
     height: 24,
+  },
+  featuredSection: {
+    marginVertical: 20,
+  },
+  sectionHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  sectionTitle: {
+    fontSize: 20,
+    fontFamily: Fonts.BOLD,
+    color: Colors.greyDark,
+  },
+  seeAllButton: {
+    fontSize: 16,
+    fontFamily: Fonts.BOLD,
+    color: Colors.primary,
+  },
+  cardContainer: {
+    flexDirection: 'row',
+    gap: 20,
+    marginTop: 20,
   },
 });
 

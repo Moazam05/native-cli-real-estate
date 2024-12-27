@@ -19,7 +19,7 @@ const Card = ({item, onPress}) => {
 
       <Image
         //   source={{uri: item.image}}
-        source={images.japan}
+        source={images.newYork}
         style={styles.mainImage}
       />
 
