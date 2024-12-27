@@ -20,6 +20,7 @@ import {selectedUser, setUser} from '../../redux/auth/authSlice';
 import icons from '../../constants/icons';
 import Fonts from '../../constants/fonts';
 import {settings} from '../../constants/data';
+import Colors from '../../constants/colors';
 
 const SettingsItem = ({icon, title, onPress, textStyle, showArrow = true}) => (
   <TouchableOpacity onPress={onPress} style={styles.settingsItemContainer}>
@@ -174,7 +175,7 @@ const styles = StyleSheet.create({
   },
   borderTop: {
     borderTopWidth: 1,
-    borderTopColor: '#0061FF1A',
+    borderTopColor: Colors.primaryMedium,
     paddingTop: 10,
   },
   settingsItemContainer: {
@@ -202,7 +203,7 @@ const styles = StyleSheet.create({
     height: 20,
   },
   logoutText: {
-    color: '#FF0000',
+    color: Colors.danger,
   },
 });
 
