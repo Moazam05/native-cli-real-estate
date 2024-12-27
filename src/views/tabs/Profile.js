@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Alert,
   Image,
@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   View,
   StyleSheet,
+  ActivityIndicator,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {useDispatch} from 'react-redux';
@@ -22,11 +23,30 @@ import Fonts from '../../constants/fonts';
 import {settings} from '../../constants/data';
 import Colors from '../../constants/colors';
 
-const SettingsItem = ({icon, title, onPress, textStyle, showArrow = true}) => (
-  <TouchableOpacity onPress={onPress} style={styles.settingsItemContainer}>
+const SettingsItem = ({
+  icon,
+  title,
+  onPress,
+  textStyle,
+  showArrow = true,
+  isLoading,
+}) => (
+  <TouchableOpacity
+    onPress={onPress}
+    style={styles.settingsItemContainer}
+    disabled={isLoading} // Disable button while loading
+  >
     <View style={styles.settingsItemLeft}>
       <Image source={icon} style={styles.settingsIcon} />
-      <Text style={[styles.settingsTitle, textStyle]}>{title}</Text>
+      {isLoading ? (
+        <ActivityIndicator
+          size="small"
+          color={Colors.danger}
+          style={styles.loader}
+        />
+      ) : (
+        <Text style={[styles.settingsTitle, textStyle]}>{title}</Text>
+      )}
     </View>
     {showArrow && <Image source={icons.rightArrow} style={styles.arrowIcon} />}
   </TouchableOpacity>
@@ -36,6 +56,8 @@ const Profile = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const userDetails = useTypedSelector(selectedUser);
+
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const configureGoogleSignIn = async () => {
@@ -56,6 +78,7 @@ const Profile = () => {
   }, []);
 
   const handleSignOut = async () => {
+    setIsLoading(true);
     try {
       await GoogleSignin.signOut();
       await supabase.auth.signOut();
@@ -65,6 +88,8 @@ const Profile = () => {
     } catch (error) {
       console.error('Error signing out:', error);
       Alert.alert('Error', 'Failed to logout');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -111,6 +136,7 @@ const Profile = () => {
             textStyle={styles.logoutText}
             showArrow={false}
             onPress={handleSignOut}
+            isLoading={isLoading}
           />
         </View>
       </ScrollView>
@@ -204,6 +230,9 @@ const styles = StyleSheet.create({
   },
   logoutText: {
     color: Colors.danger,
+  },
+  loader: {
+    marginLeft: 12,
   },
 });
 
