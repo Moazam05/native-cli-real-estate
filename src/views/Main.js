@@ -1,22 +1,28 @@
 // views/Main.js
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {Image, Text, TouchableOpacity, View} from 'react-native';
 
 import Home from './tabs/Home';
 import Profile from './tabs/Profile';
 import Explore from './tabs/Explore';
 import icons from '../constants/icons';
-import {Image, Text, View} from 'react-native';
+import Fonts from '../constants/fonts';
 
 const Tab = createBottomTabNavigator();
 
 const TabIcon = ({focused, icon, title}) => (
-  <View style={{flex: 1, marginTop: 12, alignItems: 'center'}}>
+  <View
+    style={{
+      flex: 1,
+      marginTop: 12,
+      alignItems: 'center',
+    }}>
     <Image
       source={icon}
       style={{
-        width: 24,
-        height: 24,
+        width: 22,
+        height: 22,
         tintColor: focused ? '#0061FF' : '#666876',
       }}
       resizeMode="contain"
@@ -25,10 +31,10 @@ const TabIcon = ({focused, icon, title}) => (
       style={{
         color: focused ? '#0061FF' : '#666876',
         fontSize: 12,
-        fontFamily: focused ? 'Rubik-Medium' : 'Rubik-Regular',
+        fontFamily: focused ? Fonts.MEDIUM : Fonts.REGULAR,
         width: '100%',
         textAlign: 'center',
-        marginTop: 4,
+        marginTop: 3,
       }}>
       {title}
     </Text>
@@ -43,11 +49,21 @@ const Main = () => {
         tabBarShowLabel: false,
         tabBarStyle: {
           backgroundColor: 'white',
-          position: 'absolute',
-          borderTopColor: '#0061FF1A',
+          borderTopColor: '#EBEEF2',
           borderTopWidth: 1,
-          minHeight: 70,
+          height: 65,
+          paddingVertical: 8,
         },
+        tabBarItemStyle: {
+          marginHorizontal: 8,
+        },
+        // Add these options to remove the press effect
+        tabBarActiveBackgroundColor: 'transparent',
+        tabBarInactiveBackgroundColor: 'transparent',
+        // For Android, disable the ripple effect
+        android_ripple: {enabled: false},
+        pressColor: 'transparent',
+        pressOpacity: 1,
       }}>
       <Tab.Screen
         name="Home"
@@ -55,6 +71,11 @@ const Main = () => {
         options={{
           tabBarIcon: ({focused}) => (
             <TabIcon focused={focused} icon={icons.home} title="Home" />
+          ),
+          tabBarButton: props => (
+            <View style={{flex: 1}}>
+              <TouchableOpacity {...props} activeOpacity={1} />
+            </View>
           ),
         }}
       />
@@ -65,6 +86,11 @@ const Main = () => {
           tabBarIcon: ({focused}) => (
             <TabIcon focused={focused} icon={icons.search} title="Explore" />
           ),
+          tabBarButton: props => (
+            <View style={{flex: 1}}>
+              <TouchableOpacity {...props} activeOpacity={1} />
+            </View>
+          ),
         }}
       />
       <Tab.Screen
@@ -73,6 +99,11 @@ const Main = () => {
         options={{
           tabBarIcon: ({focused}) => (
             <TabIcon focused={focused} icon={icons.person} title="Profile" />
+          ),
+          tabBarButton: props => (
+            <View style={{flex: 1}}>
+              <TouchableOpacity {...props} activeOpacity={1} />
+            </View>
           ),
         }}
       />
