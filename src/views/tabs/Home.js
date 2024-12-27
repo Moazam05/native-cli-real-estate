@@ -1,4 +1,11 @@
-import {View, Text, SafeAreaView, Image, StyleSheet} from 'react-native';
+import {
+  View,
+  Text,
+  SafeAreaView,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+} from 'react-native';
 import React from 'react';
 import Searchbar from '../../components/Searchbar';
 import useTypedSelector from '../../hooks/useTypedSelector';
@@ -6,6 +13,8 @@ import {selectedUser} from '../../redux/auth/authSlice';
 import icons from '../../constants/icons';
 import Fonts from '../../constants/fonts';
 import Colors from '../../constants/colors';
+import FeaturedCard from '../../components/Cards/FeaturedCard';
+import Card from '../../components/Cards/Card';
 
 const Home = () => {
   const userDetails = useTypedSelector(selectedUser);
@@ -30,6 +39,22 @@ const Home = () => {
         </View>
 
         <Searchbar />
+
+        <View className="my-5">
+          <View className="flex flex-row items-center justify-between">
+            <Text className="text-xl font-rubik-bold text-black-300">
+              Featured
+            </Text>
+            <TouchableOpacity>
+              <Text className="text-base font-rubik-bold text-primary-300">
+                See all
+              </Text>
+            </TouchableOpacity>
+          </View>
+
+          <FeaturedCard />
+          <Card />
+        </View>
       </View>
     </SafeAreaView>
   );
