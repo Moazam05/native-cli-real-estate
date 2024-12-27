@@ -16,7 +16,7 @@ const Splash = () => {
     const userData = await AsyncStorage.getItem('user');
     const parsedUser = userData ? JSON.parse(userData) : null;
     setTimeout(() => {
-      navigation.replace(parsedUser ? 'Home' : 'SignIn');
+      navigation.replace(parsedUser ? 'Main' : 'SignIn');
     }, 2000);
   };
 
