@@ -80,7 +80,7 @@ const SignIn = () => {
         // console.log('Supabase Success:', data);
         await AsyncStorage.setItem('user', JSON.stringify(data));
         dispatch(setUser(data));
-        navigation.replace('Home');
+        navigation.replace('Main');
       } else {
         throw new Error('Failed to get necessary tokens');
       }
