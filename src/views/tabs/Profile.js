@@ -170,12 +170,13 @@ const styles = StyleSheet.create({
   profileSection: {
     flexDirection: 'row',
     justifyContent: 'center',
-    marginTop: 20,
+    marginTop: 15,
   },
   profileImageContainer: {
     alignItems: 'center',
     marginTop: 20,
     position: 'relative',
+    marginBottom: 5,
   },
   profileImage: {
     width: 100,
@@ -188,8 +189,8 @@ const styles = StyleSheet.create({
     right: 38,
   },
   editIcon: {
-    width: 26,
-    height: 26,
+    width: 25,
+    height: 25,
   },
   userName: {
     fontSize: 24,
@@ -197,7 +198,7 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
   settingsSection: {
-    marginTop: 20,
+    marginTop: 10,
   },
   borderTop: {
     borderTopWidth: 1,
