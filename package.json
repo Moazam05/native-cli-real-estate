@@ -11,6 +11,9 @@
     "android-clean": "clear && cd android && ./gradlew clean && cd .. && npm run android",
     "ios-clean": "clear && cd ios && rm -rf build && xcodebuild clean && pod update && cd .. && npm run ios"
   },
+  "prisma": {
+    "seed": "node seed.js"
+  },
   "dependencies": {
     "@prisma/client": "^6.1.0",
     "@react-native-async-storage/async-storage": "^2.1.0",
