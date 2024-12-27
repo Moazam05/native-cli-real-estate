@@ -13,18 +13,79 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum PropertyType {
+  House
+  Townhouses
+  Condos
+  Duplexes
+  Studios
+  Villas
+  Apartments
+  Others
+}
+
+enum Facility {
+  Laundry
+  CarParking
+  SportsCenter
+  Cutlery
+  Gym
+  SwimmingPool
+  Wifi
+  PetCenter
+}
+
+model Properties {
+  id          Int          @id @default(autoincrement())
+  name        String
+  type        PropertyType
+  description String
+  address     String
+  price       Float
+  area        Float
+  bedrooms    Int
+  bathrooms   Int
+  rating      Float
+  facilities  Facility[]
+  image       String
+  geolocation String
+  
+  // Relations
+  agentId     Int
+  agent       Agents       @relation(fields: [agentId], references: [id])
+  gallery     Galleries[]  // Many-to-Many
+  reviews     Reviews[]    // One-to-Many
+
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+}
+
 model Agents {
-  id        Int      @id @default(autoincrement())
-  name      String   
-  email     String   @unique
-  avatar    String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+ id         Int          @id @default(autoincrement())
+ name       String   
+ email      String       @unique
+ avatar     String
+ properties Properties[] // One-to-Many (one agent can have many properties)
+ createdAt  DateTime     @default(now())
+ updatedAt  DateTime     @updatedAt
 }
 
 model Galleries {
- id        Int      @id @default(autoincrement())
- image     String   
- createdAt DateTime @default(now())
- updatedAt DateTime @updatedAt
+  id         Int          @id @default(autoincrement())
+  image      String   
+  properties Properties[] // Many-to-Many
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+}
+
+model Reviews {
+  id         Int        @id @default(autoincrement())
+  name       String   
+  avatar     String
+  review     String
+  rating     Int
+  propertyId Int
+  property   Properties @relation(fields: [propertyId], references: [id])
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
 }
