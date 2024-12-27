@@ -159,11 +159,11 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   listContent: {
-    paddingBottom: 128,
+    paddingBottom: 30,
   },
   columnWrapper: {
-    gap: 20,
-    paddingHorizontal: 20,
+    gap: 15,
+    paddingHorizontal: 10,
   },
 });
 
