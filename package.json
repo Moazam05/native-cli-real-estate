@@ -12,6 +12,7 @@
     "ios-clean": "clear && cd ios && rm -rf build && xcodebuild clean && pod update && cd .. && npm run ios"
   },
   "dependencies": {
+    "@prisma/client": "^6.1.0",
     "@react-native-async-storage/async-storage": "^2.1.0",
     "@react-native-google-signin/google-signin": "^13.1.0",
     "@react-navigation/bottom-tabs": "^7.2.0",
