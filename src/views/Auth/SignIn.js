@@ -1,3 +1,4 @@
+import {WEB_CLIENT_ID} from '@env';
 import React, {useEffect} from 'react';
 import {
   SafeAreaView,
@@ -42,8 +43,7 @@ const SignIn = () => {
     const configureGoogleSignIn = async () => {
       try {
         await GoogleSignin.configure({
-          webClientId:
-            '718857751653-8tli83q6b913j2263ophp8cal2r7lmga.apps.googleusercontent.com',
+          webClientId: WEB_CLIENT_ID,
           offlineAccess: true,
           // Add these scopes
           scopes: ['profile', 'email'],
