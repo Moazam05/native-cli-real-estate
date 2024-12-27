@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   View,
   Text,
@@ -5,75 +6,88 @@ import {
   Image,
   StyleSheet,
   TouchableOpacity,
+  FlatList,
 } from 'react-native';
-import React from 'react';
+
 import Searchbar from '../../components/Searchbar';
-import useTypedSelector from '../../hooks/useTypedSelector';
-import {selectedUser} from '../../redux/auth/authSlice';
+import Filters from '../../components/Filters';
+import FeaturedCard from '../../components/Cards/FeaturedCard';
+import Card from '../../components/Cards/Card';
 import icons from '../../constants/icons';
 import Fonts from '../../constants/fonts';
 import Colors from '../../constants/colors';
-import FeaturedCard from '../../components/Cards/FeaturedCard';
-import Card from '../../components/Cards/Card';
-import Filters from '../../components/Filters';
+import useTypedSelector from '../../hooks/useTypedSelector';
+import {selectedUser} from '../../redux/auth/authSlice';
+
+const ListHeader = ({dummyData, userDetails}) => (
+  <View style={styles.headerContainer}>
+    <View style={styles.userSection}>
+      <View style={styles.userInfoContainer}>
+        <Image
+          source={{uri: userDetails?.user?.user_metadata?.picture}}
+          style={styles.avatar}
+        />
+        <View style={styles.userTextContainer}>
+          <Text style={styles.greetingText}>Good Morning</Text>
+          <Text style={styles.userName}>
+            {userDetails?.user?.user_metadata?.name}
+          </Text>
+        </View>
+      </View>
+      <Image source={icons.bell} style={styles.bellIcon} />
+    </View>
+
+    <Searchbar />
+
+    <View style={styles.featuredSection}>
+      <View style={styles.sectionHeader}>
+        <Text style={styles.sectionTitle}>Featured</Text>
+        <TouchableOpacity>
+          <Text style={styles.seeAllButton}>See all</Text>
+        </TouchableOpacity>
+      </View>
+
+      <FlatList
+        data={dummyData}
+        renderItem={({item}) => <FeaturedCard item={item} />}
+        keyExtractor={item => item.toString()}
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={styles.featuredList}
+      />
+    </View>
+
+    <View style={styles.recommendationSection}>
+      <View style={styles.sectionHeader}>
+        <Text style={styles.sectionTitle}>Our Recommendation</Text>
+        <TouchableOpacity>
+          <Text style={styles.seeAllButton}>See all</Text>
+        </TouchableOpacity>
+      </View>
+      <Filters />
+    </View>
+  </View>
+);
 
 const Home = () => {
   const userDetails = useTypedSelector(selectedUser);
 
+  const dummyData = [1, 2, 3];
+
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.content}>
-        <View style={styles.header}>
-          <View style={styles.userInfoContainer}>
-            <Image
-              source={{uri: userDetails?.user?.user_metadata?.picture}}
-              style={styles.avatar}
-            />
-            <View style={styles.userTextContainer}>
-              <Text style={styles.greetingText}>Good Morning</Text>
-              <Text style={styles.userName}>
-                {userDetails?.user?.user_metadata?.name}
-              </Text>
-            </View>
-          </View>
-          <Image source={icons.bell} style={styles.bellIcon} />
-        </View>
-
-        <Searchbar />
-
-        {/* Featured Section */}
-        <View style={styles.featuredSection}>
-          <View style={styles.sectionHeader}>
-            <Text style={styles.sectionTitle}>Featured</Text>
-            <TouchableOpacity>
-              <Text style={styles.seeAllButton}>See all</Text>
-            </TouchableOpacity>
-          </View>
-
-          <View style={styles.cardContainer}>
-            <FeaturedCard />
-            <FeaturedCard />
-            <FeaturedCard />
-          </View>
-        </View>
-
-        {/* Repeat for second section */}
-        <View style={styles.featuredSection}>
-          <View style={styles.sectionHeader}>
-            <Text style={styles.sectionTitle}>Featured</Text>
-            <TouchableOpacity>
-              <Text style={styles.seeAllButton}>See all</Text>
-            </TouchableOpacity>
-          </View>
-
-          <Filters />
-
-          <View style={styles.cardContainer}>
-            <Card />
-            <Card />
-          </View>
-        </View>
-      </View>
+      <FlatList
+        data={dummyData}
+        numColumns={2}
+        renderItem={({item}) => <Card item={item} />}
+        keyExtractor={item => item.toString()}
+        ListHeaderComponent={
+          <ListHeader dummyData={dummyData} userDetails={userDetails} />
+        }
+        contentContainerStyle={styles.listContent}
+        columnWrapperStyle={styles.columnWrapper}
+        showsVerticalScrollIndicator={false}
+      />
     </SafeAreaView>
   );
 };
@@ -83,10 +97,10 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'white',
   },
-  content: {
+  headerContainer: {
     paddingHorizontal: 20,
   },
-  header: {
+  userSection: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -122,6 +136,9 @@ const styles = StyleSheet.create({
   featuredSection: {
     marginVertical: 20,
   },
+  recommendationSection: {
+    marginTop: 20,
+  },
   sectionHeader: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -137,10 +154,16 @@ const styles = StyleSheet.create({
     fontFamily: Fonts.BOLD,
     color: Colors.primary,
   },
-  cardContainer: {
-    flexDirection: 'row',
+  featuredList: {
     gap: 20,
     marginTop: 20,
+  },
+  listContent: {
+    paddingBottom: 128,
+  },
+  columnWrapper: {
+    gap: 20,
+    paddingHorizontal: 20,
   },
 });
 
