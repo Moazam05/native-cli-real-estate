@@ -15,6 +15,7 @@ import Fonts from '../../constants/fonts';
 import Colors from '../../constants/colors';
 import FeaturedCard from '../../components/Cards/FeaturedCard';
 import Card from '../../components/Cards/Card';
+import Filters from '../../components/Filters';
 
 const Home = () => {
   const userDetails = useTypedSelector(selectedUser);
@@ -64,6 +65,8 @@ const Home = () => {
               <Text style={styles.seeAllButton}>See all</Text>
             </TouchableOpacity>
           </View>
+
+          <Filters />
 
           <View style={styles.cardContainer}>
             <Card />
