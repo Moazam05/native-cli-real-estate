@@ -281,7 +281,7 @@ const styles = StyleSheet.create({
   },
   backButton: {
     flexDirection: 'row',
-    backgroundColor: Colors.primary200,
+    backgroundColor: Colors.primaryMedium,
     borderRadius: 22,
     width: 44,
     height: 44,
@@ -308,8 +308,8 @@ const styles = StyleSheet.create({
   },
   propertyName: {
     fontSize: 24,
-    fontFamily: Fonts.rubikExtrabold,
-    color: Colors.black300,
+    fontFamily: Fonts.EXTRA_BOLD,
+    color: Colors.greyDark,
   },
   tagContainer: {
     flexDirection: 'row',
@@ -317,15 +317,15 @@ const styles = StyleSheet.create({
     gap: 12,
   },
   typeTag: {
-    backgroundColor: Colors.primary100,
+    backgroundColor: Colors.primaryLight,
     paddingHorizontal: 16,
     paddingVertical: 8,
     borderRadius: 20,
   },
   typeText: {
     fontSize: 12,
-    fontFamily: Fonts.rubikBold,
-    color: Colors.primary300,
+    fontFamily: Fonts.BOLD,
+    color: Colors.primary,
   },
   ratingContainer: {
     flexDirection: 'row',
@@ -338,8 +338,8 @@ const styles = StyleSheet.create({
   },
   ratingText: {
     fontSize: 14,
-    fontFamily: Fonts.rubikMedium,
-    color: Colors.black200,
+    fontFamily: Fonts.MEDIUM,
+    color: Colors.greyMedium,
     marginTop: 4,
   },
   amenitiesRow: {
@@ -353,7 +353,7 @@ const styles = StyleSheet.create({
     marginRight: 28,
   },
   amenityIcon: {
-    backgroundColor: Colors.primary100,
+    backgroundColor: Colors.primaryLight,
     borderRadius: 20,
     width: 40,
     height: 40,
@@ -367,12 +367,12 @@ const styles = StyleSheet.create({
   amenityText: {
     marginLeft: 8,
     fontSize: 14,
-    fontFamily: Fonts.rubikMedium,
-    color: Colors.black300,
+    fontFamily: Fonts.MEDIUM,
+    color: Colors.greyDark,
   },
   sectionDivider: {
     borderTopWidth: 1,
-    borderColor: Colors.primary200,
+    borderColor: Colors.primaryMedium,
     paddingTop: 28,
     marginTop: 20,
   },
@@ -381,8 +381,8 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: 20,
-    fontFamily: Fonts.rubikBold,
-    color: Colors.black300,
+    fontFamily: Fonts.BOLD,
+    color: Colors.greyDark,
   },
   agentContainer: {
     flexDirection: 'row',
@@ -404,13 +404,13 @@ const styles = StyleSheet.create({
   },
   agentName: {
     fontSize: 18,
-    fontFamily: Fonts.rubikBold,
-    color: Colors.black300,
+    fontFamily: Fonts.BOLD,
+    color: Colors.greyDark,
   },
   agentEmail: {
     fontSize: 14,
-    fontFamily: Fonts.rubikMedium,
-    color: Colors.black200,
+    fontFamily: Fonts.MEDIUM,
+    color: Colors.greyMedium,
   },
   agentActions: {
     flexDirection: 'row',
@@ -418,8 +418,8 @@ const styles = StyleSheet.create({
   },
   descriptionText: {
     fontSize: 16,
-    fontFamily: Fonts.rubik,
-    color: Colors.black200,
+    fontFamily: Fonts.REGULAR,
+    color: Colors.greyMedium,
     marginTop: 8,
   },
   facilitiesContainer: {
@@ -437,7 +437,7 @@ const styles = StyleSheet.create({
   facilityIconContainer: {
     width: 56,
     height: 56,
-    backgroundColor: Colors.primary100,
+    backgroundColor: Colors.primaryLight,
     borderRadius: 28,
     alignItems: 'center',
     justifyContent: 'center',
@@ -450,8 +450,8 @@ const styles = StyleSheet.create({
     marginTop: 6,
     textAlign: 'center',
     fontSize: 14,
-    fontFamily: Fonts.rubik,
-    color: Colors.black300,
+    fontFamily: Fonts.REGULAR,
+    color: Colors.greyDark,
   },
   galleryList: {
     gap: 16,
@@ -474,8 +474,8 @@ const styles = StyleSheet.create({
   },
   locationText: {
     fontSize: 14,
-    fontFamily: Fonts.rubikMedium,
-    color: Colors.black200,
+    fontFamily: Fonts.MEDIUM,
+    color: Colors.greyMedium,
   },
   mapImage: {
     width: '100%',
@@ -494,8 +494,8 @@ const styles = StyleSheet.create({
   },
   viewAllText: {
     fontSize: 16,
-    fontFamily: Fonts.rubikBold,
-    color: Colors.primary300,
+    fontFamily: Fonts.BOLD,
+    color: Colors.primary,
   },
   bottomBar: {
     position: 'absolute',
@@ -505,7 +505,7 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     borderRightWidth: 1,
     borderLeftWidth: 1,
-    borderColor: Colors.primary200,
+    borderColor: Colors.primaryMedium,
     borderTopLeftRadius: 16,
     borderTopRightRadius: 16,
     padding: 28,
@@ -518,13 +518,13 @@ const styles = StyleSheet.create({
   },
   priceLabel: {
     fontSize: 12,
-    fontFamily: Fonts.rubikMedium,
-    color: Colors.black200,
+    fontFamily: Fonts.MEDIUM,
+    color: Colors.greyMedium,
   },
   priceValue: {
     fontSize: 24,
-    fontFamily: Fonts.rubikBold,
-    color: Colors.primary300,
+    fontFamily: Fonts.BOLD,
+    color: Colors.primary,
     textAlign: 'left',
     flex: 1,
   },
@@ -533,10 +533,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: Colors.primary300,
+    backgroundColor: Colors.primary,
     paddingVertical: 12,
     borderRadius: 24,
-    shadowColor: '#000',
+    shadowColor: Colors.black,
     shadowOffset: {
       width: 0,
       height: 2,
@@ -547,7 +547,7 @@ const styles = StyleSheet.create({
   },
   bookButtonText: {
     fontSize: 18,
-    fontFamily: Fonts.rubikBold,
+    fontFamily: Fonts.BOLD,
     color: 'white',
     textAlign: 'center',
   },
