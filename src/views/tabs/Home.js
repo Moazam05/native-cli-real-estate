@@ -21,6 +21,7 @@ import useTypedSelector from '../../hooks/useTypedSelector';
 import {selectedUser} from '../../redux/auth/authSlice';
 import {getLatestProperties, getProperties} from '../../api/properties';
 import NoResults from '../../components/NoResults';
+import {useNavigation} from '@react-navigation/native';
 
 const ListHeader = ({
   userDetails,
@@ -29,6 +30,7 @@ const ListHeader = ({
   selectedCategory,
   setSelectedCategory,
   onSearch,
+  handleCardPress,
 }) => (
   <View style={styles.headerContainer}>
     <View style={styles.userSection}>
@@ -69,7 +71,7 @@ const ListHeader = ({
           renderItem={({item}) => (
             <FeaturedCard
               item={item}
-              // onPress={() => handleCardPress(item.id)}
+              onPress={() => handleCardPress(item.id)}
             />
           )}
           keyExtractor={item => item.id}
@@ -96,6 +98,7 @@ const ListHeader = ({
 );
 
 const Home = () => {
+  const navigation = useNavigation();
   const userDetails = useTypedSelector(selectedUser);
 
   const [featuredLoading, setFeaturedLoading] = useState(true);
@@ -105,6 +108,10 @@ const Home = () => {
   const [recommendedProperties, setRecommendedProperties] = useState([]);
   const [query, setQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
+
+  const handleCardPress = id => {
+    navigation.navigate('PropertyDetails', {id});
+  };
 
   const handleSearch = searchText => {
     setQuery(searchText);
@@ -162,6 +169,7 @@ const Home = () => {
             selectedCategory={selectedCategory}
             setSelectedCategory={setSelectedCategory}
             onSearch={handleSearch}
+            handleCardPress={handleCardPress}
           />
         }
         contentContainerStyle={styles.listContent}

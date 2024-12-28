@@ -74,7 +74,7 @@ const Explore = () => {
   }, [filter, query]);
 
   const handleCardPress = id => {
-    // navigation.navigate('PropertyDetails', {id});
+    navigation.navigate('PropertyDetails', {id});
   };
 
   return (

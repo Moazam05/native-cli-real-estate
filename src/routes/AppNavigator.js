@@ -5,6 +5,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import Splash from '../views/Splash';
 import SignIn from '../views/Auth/SignIn';
 import Main from '../views/Main';
+import PropertyDetails from '../views/PropertyDetails';
 
 const Stack = createNativeStackNavigator();
 
@@ -19,6 +20,7 @@ const AppNavigator = () => {
         <Stack.Screen name="Splash" component={Splash} />
         <Stack.Screen name="SignIn" component={SignIn} />
         <Stack.Screen name="Main" component={Main} />
+        <Stack.Screen name="PropertyDetails" component={PropertyDetails} />
       </Stack.Navigator>
     </NavigationContainer>
   );
