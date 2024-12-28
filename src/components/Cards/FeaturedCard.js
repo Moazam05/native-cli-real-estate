@@ -9,11 +9,7 @@ import Colors from '../../constants/colors';
 const FeaturedCard = ({item, onPress}) => {
   return (
     <TouchableOpacity style={styles.container} onPress={onPress}>
-      <Image
-        //   source={{uri: item.image}}
-        source={images.japan}
-        style={styles.mainImage}
-      />
+      <Image source={{uri: item?.image}} style={styles.mainImage} />
 
       <Image
         source={images.cardGradient}
@@ -22,27 +18,19 @@ const FeaturedCard = ({item, onPress}) => {
 
       <View style={styles.ratingContainer}>
         <Image source={icons.star} style={styles.starIcon} />
-        <Text style={styles.ratingText}>
-          {/* {item.rating} */}
-          4.5
-        </Text>
+        <Text style={styles.ratingText}>{item?.rating}</Text>
       </View>
 
       <View style={styles.bottomContainer}>
         <Text style={styles.nameText} numberOfLines={1}>
-          {/* {item.name} */}
-          The Coffee House
+          {item?.name}
         </Text>
         <Text style={styles.addressText} numberOfLines={1}>
-          {/* {item.address} */}
-          41-51 Grey St, St Kilda, Melbourne
+          {item?.address}
         </Text>
 
         <View style={styles.priceContainer}>
-          <Text style={styles.priceText}>
-            ${/* {item.price} */}
-            5,000
-          </Text>
+          <Text style={styles.priceText}>${item?.price}</Text>
           <Image source={icons.heart} style={styles.heartIcon} />
         </View>
       </View>

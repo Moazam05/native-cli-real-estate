@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -7,6 +7,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   FlatList,
+  ActivityIndicator,
 } from 'react-native';
 
 import Searchbar from '../../components/Searchbar';
@@ -18,8 +19,10 @@ import Fonts from '../../constants/fonts';
 import Colors from '../../constants/colors';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import {selectedUser} from '../../redux/auth/authSlice';
+import {getLatestProperties} from '../../api/properties';
+import NoResults from '../../components/NoResults';
 
-const ListHeader = ({dummyData, userDetails}) => (
+const ListHeader = ({userDetails, loading, featuredProperties}) => (
   <View style={styles.headerContainer}>
     <View style={styles.userSection}>
       <View style={styles.userInfoContainer}>
@@ -47,14 +50,30 @@ const ListHeader = ({dummyData, userDetails}) => (
         </TouchableOpacity>
       </View>
 
-      <FlatList
-        data={dummyData}
-        renderItem={({item}) => <FeaturedCard item={item} />}
-        keyExtractor={item => item.toString()}
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={styles.featuredList}
-      />
+      {loading ? (
+        <ActivityIndicator
+          size="large"
+          style={{
+            color: Colors.primaryMedium,
+          }}
+        />
+      ) : !featuredProperties || featuredProperties.length === 0 ? (
+        <NoResults />
+      ) : (
+        <FlatList
+          data={featuredProperties}
+          renderItem={({item}) => (
+            <FeaturedCard
+              item={item}
+              // onPress={() => handleCardPress(item.id)}
+            />
+          )}
+          keyExtractor={item => item.id}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.featuredList}
+        />
+      )}
     </View>
 
     <View style={styles.recommendationSection}>
@@ -71,6 +90,24 @@ const ListHeader = ({dummyData, userDetails}) => (
 
 const Home = () => {
   const userDetails = useTypedSelector(selectedUser);
+  const [featuredProperties, setFeaturedProperties] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchProperties = async () => {
+      try {
+        setLoading(true);
+        const data = await getLatestProperties();
+        setFeaturedProperties(data || []);
+      } catch (error) {
+        console.error('Error fetching properties:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProperties();
+  }, []);
 
   const dummyData = [1, 2, 3];
 
@@ -82,7 +119,11 @@ const Home = () => {
         renderItem={({item}) => <Card item={item} />}
         keyExtractor={item => item.toString()}
         ListHeaderComponent={
-          <ListHeader dummyData={dummyData} userDetails={userDetails} />
+          <ListHeader
+            userDetails={userDetails}
+            loading={loading}
+            featuredProperties={featuredProperties}
+          />
         }
         contentContainerStyle={styles.listContent}
         columnWrapperStyle={styles.columnWrapper}
