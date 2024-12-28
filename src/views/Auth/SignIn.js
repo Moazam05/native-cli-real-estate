@@ -48,7 +48,7 @@ const SignIn = () => {
           // Add these scopes
           scopes: ['profile', 'email'],
         });
-        console.log('Google Sign In configured successfully');
+        // console.log('Google Sign In configured successfully');
       } catch (error) {
         console.error('Google Sign In configuration error:', error);
       }
