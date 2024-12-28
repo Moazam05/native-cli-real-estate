@@ -4,40 +4,23 @@ import {View, Text, TouchableOpacity, Image, StyleSheet} from 'react-native';
 import icons from '../../constants/icons';
 import Fonts from '../../constants/fonts';
 import Colors from '../../constants/colors';
-import images from '../../constants/images';
 
 const Card = ({item, onPress}) => {
   return (
     <TouchableOpacity style={styles.container} onPress={onPress}>
       <View style={styles.ratingContainer}>
         <Image source={icons.star} style={styles.starIcon} />
-        <Text style={styles.ratingText}>
-          {/* {item.rating} */}
-          4.5
-        </Text>
+        <Text style={styles.ratingText}>{item?.rating}</Text>
       </View>
 
-      <Image
-        //   source={{uri: item.image}}
-        source={images.newYork}
-        style={styles.mainImage}
-      />
+      <Image source={{uri: item?.image}} style={styles.mainImage} />
 
       <View style={styles.infoContainer}>
-        <Text style={styles.nameText}>
-          {/* {item.name} */}
-          The Coffee House
-        </Text>
-        <Text style={styles.addressText}>
-          {/* {item.address} */}
-          41-51 Grey St, St Kilda, Melbourne
-        </Text>
+        <Text style={styles.nameText}>{item?.name}</Text>
+        <Text style={styles.addressText}>{item?.address}</Text>
 
         <View style={styles.priceContainer}>
-          <Text style={styles.priceText}>
-            ${/* {item.price} */}
-            5,000
-          </Text>
+          <Text style={styles.priceText}>${item?.price}</Text>
           <Image
             source={icons.heart}
             style={styles.heartIcon}

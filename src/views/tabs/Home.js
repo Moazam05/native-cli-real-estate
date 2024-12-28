@@ -19,7 +19,7 @@ import Fonts from '../../constants/fonts';
 import Colors from '../../constants/colors';
 import useTypedSelector from '../../hooks/useTypedSelector';
 import {selectedUser} from '../../redux/auth/authSlice';
-import {getLatestProperties} from '../../api/properties';
+import {getLatestProperties, getProperties} from '../../api/properties';
 import NoResults from '../../components/NoResults';
 
 const ListHeader = ({userDetails, loading, featuredProperties}) => (
@@ -93,6 +93,32 @@ const Home = () => {
   const [featuredProperties, setFeaturedProperties] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const [recommendedProperties, setRecommendedProperties] = useState([]);
+  const [filter, setFilter] = useState('All');
+  const [query, setQuery] = useState('');
+
+  const fetchRecommendedProperties = async () => {
+    try {
+      setLoading(true);
+      const data = await getProperties({
+        filter,
+        query,
+        limit: 6,
+      });
+      setRecommendedProperties(data || []);
+    } catch (error) {
+      console.error('Error fetching properties:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchRecommendedProperties();
+  }, []);
+
+  console.log('recommendedProperties:', recommendedProperties);
+
   useEffect(() => {
     const fetchProperties = async () => {
       try {
@@ -109,15 +135,13 @@ const Home = () => {
     fetchProperties();
   }, []);
 
-  const dummyData = [1, 2, 3];
-
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
-        data={dummyData}
+        data={recommendedProperties}
         numColumns={2}
         renderItem={({item}) => <Card item={item} />}
-        keyExtractor={item => item.toString()}
+        keyExtractor={item => item.id}
         ListHeaderComponent={
           <ListHeader
             userDetails={userDetails}
