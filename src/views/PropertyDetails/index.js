@@ -161,7 +161,7 @@ const PropertyDetails = () => {
                 {property.facilities.map((item, index) => {
                   const facility = facilities.find(f => f.title === item);
                   return (
-                    <View key={index} style={styles.facilityItem}>
+                    <View key={String(index)} style={styles.facilityItem}>
                       <View style={styles.facilityIconContainer}>
                         <Image
                           source={facility ? facility.icon : icons.info}
@@ -186,10 +186,15 @@ const PropertyDetails = () => {
                 horizontal
                 showsHorizontalScrollIndicator={false}
                 data={property.gallery}
-                keyExtractor={item => item.$id}
+                removeClippedSubviews={true}
+                initialNumToRender={4}
+                maxToRenderPerBatch={4}
+                windowSize={5}
+                keyExtractor={(item, index) => String(index)} // Ensure key is a string
                 contentContainerStyle={styles.galleryList}
-                renderItem={({item}) => (
+                renderItem={({item, index}) => (
                   <Image
+                    key={String(index)} // Add key here as well
                     source={{uri: item.image}}
                     style={styles.galleryImage}
                   />
