@@ -75,7 +75,6 @@ export async function getProperties({filter, query, limit = 6}) {
       throw error;
     }
 
-    console.log('Fetched data:', data); // For debugging
     return data;
   } catch (error) {
     console.error('Error in getProperties:', error);
