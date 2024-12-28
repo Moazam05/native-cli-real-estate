@@ -4,13 +4,14 @@ import {View, Text, TouchableOpacity, Image, StyleSheet} from 'react-native';
 import icons from '../../constants/icons';
 import Fonts from '../../constants/fonts';
 import Colors from '../../constants/colors';
+import {formatWithThousandSeparator} from '../../utils';
 
 const Card = ({item, onPress}) => {
   return (
     <TouchableOpacity style={styles.container} onPress={onPress}>
       <View style={styles.ratingContainer}>
         <Image source={icons.star} style={styles.starIcon} />
-        <Text style={styles.ratingText}>{item?.rating}</Text>
+        <Text style={styles.ratingText}>{item?.rating.toFixed(1)}</Text>
       </View>
 
       <Image source={{uri: item?.image}} style={styles.mainImage} />
@@ -20,7 +21,9 @@ const Card = ({item, onPress}) => {
         <Text style={styles.addressText}>{item?.address}</Text>
 
         <View style={styles.priceContainer}>
-          <Text style={styles.priceText}>${item?.price}</Text>
+          <Text style={styles.priceText}>
+            ${formatWithThousandSeparator(item?.price)}
+          </Text>
           <Image
             source={icons.heart}
             style={styles.heartIcon}

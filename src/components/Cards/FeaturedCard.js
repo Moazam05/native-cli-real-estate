@@ -5,6 +5,7 @@ import icons from '../../constants/icons';
 import images from '../../constants/images';
 import Fonts from '../../constants/fonts';
 import Colors from '../../constants/colors';
+import {formatWithThousandSeparator} from '../../utils';
 
 const FeaturedCard = ({item, onPress}) => {
   return (
@@ -18,7 +19,7 @@ const FeaturedCard = ({item, onPress}) => {
 
       <View style={styles.ratingContainer}>
         <Image source={icons.star} style={styles.starIcon} />
-        <Text style={styles.ratingText}>{item?.rating}</Text>
+        <Text style={styles.ratingText}>{item?.rating.toFixed(1)}</Text>
       </View>
 
       <View style={styles.bottomContainer}>
@@ -30,7 +31,9 @@ const FeaturedCard = ({item, onPress}) => {
         </Text>
 
         <View style={styles.priceContainer}>
-          <Text style={styles.priceText}>${item?.price}</Text>
+          <Text style={styles.priceText}>
+            ${formatWithThousandSeparator(item?.price)}
+          </Text>
           <Image source={icons.heart} style={styles.heartIcon} />
         </View>
       </View>

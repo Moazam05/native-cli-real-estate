@@ -117,8 +117,6 @@ const Home = () => {
     fetchRecommendedProperties();
   }, []);
 
-  console.log('recommendedProperties:', recommendedProperties);
-
   useEffect(() => {
     const fetchProperties = async () => {
       try {
