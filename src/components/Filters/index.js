@@ -1,12 +1,12 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {ScrollView, Text, TouchableOpacity, StyleSheet} from 'react-native';
 
 import {categories} from '../../constants/data';
 import Colors from '../../constants/colors';
 import Fonts from '../../constants/fonts';
 
-const Filters = () => {
-  const [selectedCategory, setSelectedCategory] = useState('All');
+const Filters = ({selectedCategory, setSelectedCategory}) => {
+  // const [selectedCategory, setSelectedCategory] = useState('All');
 
   const handleCategoryPress = category => {
     if (selectedCategory === category) {

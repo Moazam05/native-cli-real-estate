@@ -22,7 +22,13 @@ import {selectedUser} from '../../redux/auth/authSlice';
 import {getLatestProperties, getProperties} from '../../api/properties';
 import NoResults from '../../components/NoResults';
 
-const ListHeader = ({userDetails, loading, featuredProperties}) => (
+const ListHeader = ({
+  userDetails,
+  loading,
+  featuredProperties,
+  selectedCategory,
+  setSelectedCategory,
+}) => (
   <View style={styles.headerContainer}>
     <View style={styles.userSection}>
       <View style={styles.userInfoContainer}>
@@ -83,7 +89,10 @@ const ListHeader = ({userDetails, loading, featuredProperties}) => (
           <Text style={styles.seeAllButton}>See all</Text>
         </TouchableOpacity>
       </View>
-      <Filters />
+      <Filters
+        selectedCategory={selectedCategory}
+        setSelectedCategory={setSelectedCategory}
+      />
     </View>
   </View>
 );
@@ -94,14 +103,14 @@ const Home = () => {
   const [loading, setLoading] = useState(true);
 
   const [recommendedProperties, setRecommendedProperties] = useState([]);
-  const [filter, setFilter] = useState('All');
   const [query, setQuery] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('All');
 
   const fetchRecommendedProperties = async () => {
     try {
       setLoading(true);
       const data = await getProperties({
-        filter,
+        filter: selectedCategory,
         query,
         limit: 6,
       });
@@ -115,7 +124,7 @@ const Home = () => {
 
   useEffect(() => {
     fetchRecommendedProperties();
-  }, []);
+  }, [selectedCategory]);
 
   useEffect(() => {
     const fetchProperties = async () => {
@@ -145,6 +154,8 @@ const Home = () => {
             userDetails={userDetails}
             loading={loading}
             featuredProperties={featuredProperties}
+            selectedCategory={selectedCategory}
+            setSelectedCategory={setSelectedCategory}
           />
         }
         contentContainerStyle={styles.listContent}
