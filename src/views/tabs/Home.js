@@ -24,7 +24,7 @@ import NoResults from '../../components/NoResults';
 
 const ListHeader = ({
   userDetails,
-  loading,
+  featuredLoading,
   featuredProperties,
   selectedCategory,
   setSelectedCategory,
@@ -56,13 +56,10 @@ const ListHeader = ({
         </TouchableOpacity>
       </View>
 
-      {loading ? (
-        <ActivityIndicator
-          size="large"
-          style={{
-            color: Colors.primaryMedium,
-          }}
-        />
+      {featuredLoading ? (
+        <View style={styles.featuredLoadingContainer}>
+          <ActivityIndicator size="large" color={Colors.primary} />
+        </View>
       ) : !featuredProperties || featuredProperties.length === 0 ? (
         <NoResults />
       ) : (
@@ -99,16 +96,18 @@ const ListHeader = ({
 
 const Home = () => {
   const userDetails = useTypedSelector(selectedUser);
-  const [featuredProperties, setFeaturedProperties] = useState([]);
-  const [loading, setLoading] = useState(true);
 
+  const [featuredLoading, setFeaturedLoading] = useState(true);
+  const [recommendedLoading, setRecommendedLoading] = useState(true);
+
+  const [featuredProperties, setFeaturedProperties] = useState([]);
   const [recommendedProperties, setRecommendedProperties] = useState([]);
   const [query, setQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
 
   const fetchRecommendedProperties = async () => {
     try {
-      setLoading(true);
+      setRecommendedLoading(true);
       const data = await getProperties({
         filter: selectedCategory,
         query,
@@ -118,7 +117,7 @@ const Home = () => {
     } catch (error) {
       console.error('Error fetching properties:', error);
     } finally {
-      setLoading(false);
+      setRecommendedLoading(false);
     }
   };
 
@@ -127,19 +126,19 @@ const Home = () => {
   }, [selectedCategory]);
 
   useEffect(() => {
-    const fetchProperties = async () => {
+    const fetchFeaturedProperties = async () => {
       try {
-        setLoading(true);
+        setFeaturedLoading(true);
         const data = await getLatestProperties();
         setFeaturedProperties(data || []);
       } catch (error) {
         console.error('Error fetching properties:', error);
       } finally {
-        setLoading(false);
+        setFeaturedLoading(false);
       }
     };
 
-    fetchProperties();
+    fetchFeaturedProperties();
   }, []);
 
   return (
@@ -152,7 +151,7 @@ const Home = () => {
         ListHeaderComponent={
           <ListHeader
             userDetails={userDetails}
-            loading={loading}
+            featuredLoading={featuredLoading}
             featuredProperties={featuredProperties}
             selectedCategory={selectedCategory}
             setSelectedCategory={setSelectedCategory}
@@ -161,6 +160,15 @@ const Home = () => {
         contentContainerStyle={styles.listContent}
         columnWrapperStyle={styles.columnWrapper}
         showsVerticalScrollIndicator={false}
+        ListEmptyComponent={
+          recommendedLoading ? (
+            <View style={styles.recommendedLoadingContainer}>
+              <ActivityIndicator size="large" color={Colors.primary} />
+            </View>
+          ) : (
+            <NoResults />
+          )
+        }
       />
     </SafeAreaView>
   );
@@ -238,6 +246,16 @@ const styles = StyleSheet.create({
   columnWrapper: {
     gap: 15,
     paddingHorizontal: 10,
+  },
+  featuredLoadingContainer: {
+    height: 200,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  recommendedLoadingContainer: {
+    paddingVertical: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 
