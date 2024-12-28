@@ -95,3 +95,29 @@ export async function getProperties({filter, query, limit = 6}) {
     return [];
   }
 }
+
+export async function getPropertyById(id) {
+  try {
+    const {data, error} = await supabase
+      .from('Properties')
+      .select(
+        `
+        *,
+        agent:Agents(*),
+        gallery:Galleries(*),
+        reviews:Reviews(*)
+      `,
+      )
+      .eq('id', id)
+      .single();
+
+    if (error) {
+      throw error;
+    }
+
+    return data;
+  } catch (error) {
+    console.error('Error fetching property:', error);
+    return null;
+  }
+}
