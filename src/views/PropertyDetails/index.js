@@ -20,6 +20,7 @@ import icons from '../../constants/icons';
 import images from '../../constants/images';
 import {facilities} from '../../constants/data';
 import Comment from '../../components/Comment';
+import {formatWithThousandSeparator} from '../../utils';
 
 const PropertyDetails = () => {
   const route = useRoute();
@@ -81,7 +82,10 @@ const PropertyDetails = () => {
             </TouchableOpacity>
 
             <View style={styles.headerActions}>
-              <Image source={icons.heart} style={styles.actionIcon} />
+              <Image
+                source={icons.heart}
+                style={[styles.actionIcon, styles.heart]}
+              />
               <Image source={icons.send} style={styles.actionIcon} />
             </View>
           </View>
@@ -237,15 +241,19 @@ const PropertyDetails = () => {
       </ScrollView>
 
       {/* Bottom Bar */}
-      {/* <View style={styles.bottomBar}>
+      <View style={styles.bottomBar}>
         <View style={styles.priceContainer}>
-          <Text style={styles.priceLabel}>Price</Text>
-          <Text style={styles.priceValue}>${property.price}</Text>
+          <View>
+            <Text style={styles.priceLabel}>Price</Text>
+            <Text style={styles.priceValue}>
+              ${formatWithThousandSeparator(property.price)}
+            </Text>
+          </View>
+          <TouchableOpacity style={styles.bookButton}>
+            <Text style={styles.bookButtonText}>Book Now</Text>
+          </TouchableOpacity>
         </View>
-        <TouchableOpacity style={styles.bookButton}>
-          <Text style={styles.bookButtonText}>Book Now</Text>
-        </TouchableOpacity>
-      </View> */}
+      </View>
     </View>
   );
 };
@@ -307,6 +315,9 @@ const styles = StyleSheet.create({
   actionIcon: {
     width: 28,
     height: 28,
+  },
+  heart: {
+    tintColor: '#000',
   },
   contentContainer: {
     paddingHorizontal: 20,
@@ -515,13 +526,14 @@ const styles = StyleSheet.create({
     borderColor: Colors.primaryMedium,
     borderTopLeftRadius: 16,
     borderTopRightRadius: 16,
-    padding: 28,
+    paddingHorizontal: 20,
+    paddingVertical: 26,
   },
   priceContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    gap: 40,
+    gap: 30,
   },
   priceLabel: {
     fontSize: 12,
