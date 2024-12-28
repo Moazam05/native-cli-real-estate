@@ -159,7 +159,9 @@ const Home = () => {
       <FlatList
         data={recommendedProperties}
         numColumns={2}
-        renderItem={({item}) => <Card item={item} />}
+        renderItem={({item}) => (
+          <Card item={item} onPress={() => handleCardPress(item.id)} />
+        )}
         keyExtractor={item => item.id}
         ListHeaderComponent={
           <ListHeader

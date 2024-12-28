@@ -24,7 +24,7 @@ const Comment = ({item}) => {
           <Text style={styles.likeCount}>120</Text>
         </View>
         <Text style={styles.dateText}>
-          {new Date(item.$createdAt).toDateString()}
+          {new Date(item.createdAt).toDateString()}
         </Text>
       </View>
     </View>

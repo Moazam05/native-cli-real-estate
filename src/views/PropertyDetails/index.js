@@ -8,6 +8,7 @@ import {
   Platform,
   StyleSheet,
   FlatList,
+  ActivityIndicator,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {useRoute, useNavigation} from '@react-navigation/native';
@@ -48,7 +49,7 @@ const PropertyDetails = () => {
   if (loading || !property) {
     return (
       <View style={styles.loadingContainer}>
-        <Text>Loading...</Text>
+        <ActivityIndicator size="large" color={Colors.primary} />
       </View>
     );
   }
@@ -97,7 +98,7 @@ const PropertyDetails = () => {
             <View style={styles.ratingContainer}>
               <Image source={icons.star} style={styles.starIcon} />
               <Text style={styles.ratingText}>
-                {property.rating} ({property.reviews.length} reviews)
+                {property.rating.toFixed(1)} ({property.reviews.length} reviews)
               </Text>
             </View>
           </View>
@@ -214,7 +215,8 @@ const PropertyDetails = () => {
                 <View style={styles.ratingContainer}>
                   <Image source={icons.star} style={styles.starIcon} />
                   <Text style={styles.sectionTitle}>
-                    {property.rating} ({property.reviews.length} reviews)
+                    {property.rating.toFixed(1)} ({property.reviews.length}{' '}
+                    reviews)
                   </Text>
                 </View>
                 <TouchableOpacity>
@@ -350,7 +352,7 @@ const styles = StyleSheet.create({
   amenityItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginRight: 28,
+    marginRight: 12,
   },
   amenityIcon: {
     backgroundColor: Colors.primaryLight,
