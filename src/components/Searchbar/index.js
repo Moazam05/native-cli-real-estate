@@ -7,19 +7,17 @@ import {
 } from 'react-native';
 import React, {useState} from 'react';
 import {useDebouncedCallback} from 'use-debounce';
-import {useNavigation} from '@react-navigation/native';
+
 import icons from '../../constants/icons';
 import Colors from '../../constants/colors';
 import Fonts from '../../constants/fonts';
 
-const Searchbar = () => {
-  const navigation = useNavigation();
+const Searchbar = ({onSearch}) => {
   const [search, setSearch] = useState('');
 
   const debouncedSearch = useDebouncedCallback(text => {
-    // Since we're not using Expo Router, we can handle the search differently
-    // For example, you could dispatch to Redux or handle it in the parent component
-    console.log('Debounced search:', text);
+    // console.log('Debounced search:', text);
+    onSearch(text);
   }, 500);
 
   const handleSearch = text => {

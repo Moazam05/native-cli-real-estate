@@ -35,7 +35,6 @@ export async function getProperties({filter, query, limit = 6}) {
 
     // Add filter if it exists and isn't "All"
     if (filter && filter !== 'All') {
-      // Match the exact case from your schema enum
       const propertyTypeMap = {
         house: 'House',
         townhouses: 'Townhouses',
@@ -55,12 +54,27 @@ export async function getProperties({filter, query, limit = 6}) {
 
     // Add search if query exists
     if (query) {
-      supabaseQuery = supabaseQuery.or(`
-        name.ilike.%${query}%,
-        address.ilike.%${query}%,
-        type.ilike.%${query}%,
-        description.ilike.%${query}%
-      `);
+      // Search only text fields, not the enum type
+      supabaseQuery = supabaseQuery.or(
+        `name.ilike.%${query}%,address.ilike.%${query}%,description.ilike.%${query}%`,
+      );
+
+      // Handle enum type search separately if needed
+      const upperQuery = query.toUpperCase();
+      if (
+        [
+          'HOUSE',
+          'TOWNHOUSES',
+          'CONDOS',
+          'DUPLEXES',
+          'STUDIOS',
+          'VILLAS',
+          'APARTMENTS',
+          'OTHERS',
+        ].includes(upperQuery)
+      ) {
+        supabaseQuery = supabaseQuery.or(`type.eq.${upperQuery}`);
+      }
     }
 
     // Add limit

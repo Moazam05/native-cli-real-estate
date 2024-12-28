@@ -28,6 +28,7 @@ const ListHeader = ({
   featuredProperties,
   selectedCategory,
   setSelectedCategory,
+  onSearch,
 }) => (
   <View style={styles.headerContainer}>
     <View style={styles.userSection}>
@@ -46,7 +47,7 @@ const ListHeader = ({
       <Image source={icons.bell} style={styles.bellIcon} />
     </View>
 
-    <Searchbar />
+    <Searchbar onSearch={onSearch} />
 
     <View style={styles.featuredSection}>
       <View style={styles.sectionHeader}>
@@ -105,6 +106,10 @@ const Home = () => {
   const [query, setQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
 
+  const handleSearch = searchText => {
+    setQuery(searchText);
+  };
+
   const fetchRecommendedProperties = async () => {
     try {
       setRecommendedLoading(true);
@@ -123,7 +128,8 @@ const Home = () => {
 
   useEffect(() => {
     fetchRecommendedProperties();
-  }, [selectedCategory]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedCategory, query]);
 
   useEffect(() => {
     const fetchFeaturedProperties = async () => {
@@ -155,6 +161,7 @@ const Home = () => {
             featuredProperties={featuredProperties}
             selectedCategory={selectedCategory}
             setSelectedCategory={setSelectedCategory}
+            onSearch={handleSearch}
           />
         }
         contentContainerStyle={styles.listContent}
