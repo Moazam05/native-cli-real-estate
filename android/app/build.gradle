@@ -112,7 +112,8 @@ android {
         abi {
             enable true
             reset()
-            include "armeabi-v7l", "arm64-v8a"
+            include "arm64-v8a"
+            universalApk false
         }
     }
 }

@@ -1,10 +1,28 @@
-# Add project specific ProGuard rules here.
-# By default, the flags in this file are appended to flags specified
-# in /usr/local/Cellar/android-sdk/24.3.3/tools/proguard/proguard-android.txt
-# You can edit the include path and order by changing the proguardFiles
-# directive in build.gradle.
-#
-# For more details, see
-#   http://developer.android.com/guide/developing/tools/proguard.html
+# Keep React Native Fabric
+-keep class com.facebook.react.fabric.** { *; }
+-keep class com.facebook.react.uimanager.** { *; }
+-keep class com.facebook.react.fabric.FabricUIManager { *; }
+-keep class com.facebook.react.fabric.Binding { *; }
+-keep class com.facebook.react.fabric.ComponentFactory { *; }
 
-# Add any project specific keep options here:
+# Keep NativeStackView components
+-keep class com.swmansion.** { *; }
+-keep class com.th3rdwave.** { *; }
+-keep public class * implements com.facebook.react.ReactPackage
+
+# General React Native rules
+-keep,allowobfuscation @interface com.facebook.proguard.annotations.DoNotStrip
+-keep,allowobfuscation @interface com.facebook.proguard.annotations.KeepGettersAndSetters
+-keep,allowobfuscation @interface com.facebook.jni.annotations.*
+
+-keep @com.facebook.proguard.annotations.DoNotStrip class *
+-keep @com.facebook.common.internal.DoNotStrip class *
+-keepclassmembers class * {
+    @com.facebook.proguard.annotations.DoNotStrip *;
+    @com.facebook.common.internal.DoNotStrip *;
+}
+
+-keepattributes RuntimeVisible*Annotations
+-keepattributes *Annotation*
+-dontwarn com.facebook.react.**
+-keep class com.facebook.react.** { *; }
